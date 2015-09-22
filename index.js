@@ -6,6 +6,9 @@ var supertest = require('supertest');
 // An array of HTTP methods SuperAgent supports.
 var methods = require("methods");
 
+
+var Sync = require('sync');
+
 // Hook into the HTTP methods in order to keep track of the current request. This is of course terribly non-async, but
 // seems to work quite well in practice. And I'm doing that to later be able to change the stack trace of any failed
 // tests to a dump of the request that was running.
@@ -36,12 +39,12 @@ for (var key in supertest) {
     exp[key] = supertest[key];
 }
 
-var defaultCredentials = { user: null, pass: null };
+var defaultCredentials = {user: null, pass: null};
 
 exp.defaultCredentials = function (user, pass) {
     user = (typeof user == "string") ? user : null;
     pass = (typeof pass == "string") ? pass : null;
-    return defaultCredentials = { user: user, pass: pass };
+    return defaultCredentials = {user: user, pass: pass};
 };
 
 var legalTldChars = 'abcdefghijklmnopqrstuvwxyz';
@@ -170,7 +173,7 @@ var renderRequest = function (req, number) {
  */
 exp.renderCurrentRequest = function () {
     return currentRequest ? renderRequest(currentRequest, requestNumber) : "";
-}
+};
 
 var maxBodyDump = 500;
 /**
@@ -185,7 +188,7 @@ var maxBodyDump = 500;
  */
 exp.setMaxBodyDump = function (size) {
     return maxBodyDump = (size === Infinity) ? size : parseInt(size, 10);
-}
+};
 
 /**
  * Set the error's stack trace to a dump of the current request.
@@ -222,3 +225,38 @@ Test.prototype.auth = function (user, pass) {
 Test.prototype.sendForm = function (data) {
     return this.type('form').send(data);
 };
+
+/**
+ * Sets the OAuth provider and gets token if needed
+ * @param oauth
+ * @param token
+ * @returns {*}
+ */
+Test.prototype.sign = function (oauth, token) {
+    this.oauth = oauth;
+    this.token = token;
+
+    if(!this.token){
+        throw ""
+    }
+
+    _self = this;
+    return this.set('Authorization', this.oauth.buildAuthHeader(this.token));
+};
+
+//Test.prototype.signOAuth2 = function () {
+//        console.log('return after setting auth header');
+//
+//}
+//
+//var oldRequest = Test.prototype.request;
+//Test.prototype.request = function () {
+//    this.request = oldRequest;
+//
+//    if (this.oauth && this.oauth._request) {
+//        this.signOAuth2();
+//    }
+//
+//    console.log("this is my new request");
+//    return this.request();
+//}
