@@ -1,6 +1,6 @@
 {
   "name": "supertest-oauth",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Supertest extensions, adding oauth functionality",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "supertest": "^1.1.0"
   },
   "devDependencies": {
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "restify": "^4.0.3"
   }
 }

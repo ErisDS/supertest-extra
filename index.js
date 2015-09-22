@@ -105,11 +105,7 @@ exp.generateConservativeEmail = function () {
     return localpart + "@" + exp.generateConservativeDomain();
 };
 
-/**
- * Use .end(supertest.debug(done)) to get this to work
- * @param done
- * @returns {Function}
- */
+// Use .end(supertest.debug(done)) to get this.
 exp.debug = function (done) {
     return function (err, ag) {
         var done_result = done.apply(this, arguments);
@@ -174,7 +170,7 @@ var renderRequest = function (req, number) {
  */
 exp.renderCurrentRequest = function () {
     return currentRequest ? renderRequest(currentRequest, requestNumber) : "";
-};
+}
 
 var maxBodyDump = 500;
 /**
@@ -189,25 +185,25 @@ var maxBodyDump = 500;
  */
 exp.setMaxBodyDump = function (size) {
     return maxBodyDump = (size === Infinity) ? size : parseInt(size, 10);
-};
+}
 
 /**
  * Set the error's stack trace to a dump of the current request.
  *
  * Because nobody needs stack traces in SuperTests.
  *
- * @param {Error} e The error to set the stack trace of.
+ * @param {Error} err The error to set the stack trace of.
  * @return {Error} The error that has been supplied as a parameter.
  */
-var attachCurrentRequestToError = function (e) {
+var attachCurrentRequestToError = function (err) {
     // Do nothing if there is no current request.
     if (!currentRequest) {
-        return e;
+        return err;
     }
-    e.request = currentRequest;
+    err.request = currentRequest;
     // Keep the original stack trace, but append a request dump to it, indented by four spaces.
-    e.stack = (e.stack ? e.stack + "\n\n" : "") + exp.renderCurrentRequest().replace(/^/gm, "    ");
-    return e;
+    err.stack = (err.stack ? err.stack + "\n\n" : "") + exp.renderCurrentRequest().replace(/^/gm, "    ");
+    return err;
 };
 
 // Get the Test prototype, because we're going to enhance it! \o/
@@ -222,72 +218,7 @@ Test.prototype.auth = function (user, pass) {
     return this.set("Authorization", "Basic " + new Buffer(user + ":" + pass).toString("base64"));
 };
 
-
-Test.prototype.sign = function(oauth, token) {
-    this.oauth = oauth;
-    this.token = token;
-    _self = this;
-    if(!this.token){
-        this.oauth.getOAuthAccessToken(
-            '',
-            {'grant_type':'client_credentials'},
-            function (e, access_token, refresh_token, results){
-                if(e) {
-                    console.log(e);
-                } else {
-                    _self.token = access_token;
-                    return _self.set('Authorization', _self.oauth.buildAuthHeader(_self.token));
-                }
-            });
-    } else {
-        return this.set('Authorization', this.oauth.buildAuthHeader(this.token));
-    }
-
-    return this;
-};
-
 // Send data with type form, else it would default to JSON.
 Test.prototype.sendForm = function (data) {
     return this.type('form').send(data);
 };
-
-
-// Extend Test's assert() method in order to do the JSON Schema tests.
-(function (oldAssert) {
-    Test.prototype.assert = function (res, fn) {
-        // We need to fake "fn" when passing it to the original assert, to find
-        // out what it has been called with.
-        // Note that we cannot do something like fn_args = oldAssert.apply() here and "return arguments"
-        // in the function body, since oldAssert doesn't always return fn's return value. :(
-        var fn_args = undefined;
-        // Additionally, we want to catch errors thrown by fn and attach our request to them.
-        var self = this;
-        var applyFn = function () {
-            try {
-                return fn.apply(self, fn_args);
-            } catch (e) {
-                throw attachCurrentRequestToError(e);
-            }
-        };
-        // Run the old assert and record the arguments the callback was called with.
-        oldAssert.apply(this, [res, function () { fn_args = arguments; }]);
-        // If it received an error, we simply attach the request, pass that to the _real_ fn and are done.
-        if (fn_args.length > 0 && fn_args[0]) {
-            attachCurrentRequestToError(fn_args[0]);
-            return applyFn();
-        }
-        // If everything else was fine, it's time to do some work.
-        // But only if there are schemas defined. ;)
-        if (!this._schemas) return applyFn();
-        for (var i = 0; i < this._schemas.length; i++) {
-            if (!tv4.validate(res.body, this._schemas[i])) {
-                var e = tv4.error;
-                return fn(attachCurrentRequestToError(new Error(
-                    'schema validation failed (' + e.code + ', dpath ' + e.dataPath + ', spath ' + e.schemaPath + '): '
-                    + e.message + (e.subErrors ? "; subErrors:\n" + JSON.stringify(e.subErrors, null, 2) : "")
-                )), res);
-            }
-        }
-        return applyFn();
-    };
-})(Test.prototype.assert);
