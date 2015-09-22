@@ -1,14 +1,14 @@
 {
-  "name": "superagent-oauth2",
+  "name": "supertest-oauth",
   "version": "0.1.2",
-  "description": "Tiny superagent plugin to sign requests with node-oauth",
+  "description": "Supertest extensions, adding oauth functionality",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha -R spec"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryankelley/superagent-oauth2"
+    "url": "https://github.com/ryankelley/ssupertest-oauth"
   },
   "keywords": [
     "superagent",
@@ -16,9 +16,16 @@
     "oauth2"
   ],
   "author": "Ryan Kelley",
-  "license": "MIT",
+  "license": "BSD",
   "bugs": {
-    "url": "https://github.com/ryankelley/superagent-oauth2/issues"
+    "url": "https://github.com/ryankelley/supertest-oauth/issues"
   },
-  "homepage": "https://github.com/ryankelley/superagent-oauth2"
+  "homepage": "https://github.com/ryankelley/supertest-oauth",
+  "dependencies": {
+    "methods": "^1.1.1",
+    "supertest": "^1.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  }
 }
