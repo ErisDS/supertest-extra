@@ -1,6 +1,6 @@
 {
   "name": "superagent-oauth2",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Tiny superagent plugin to sign requests with node-oauth",
   "main": "index.js",
   "scripts": {

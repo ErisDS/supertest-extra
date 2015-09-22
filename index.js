@@ -13,7 +13,7 @@ module.exports = function (superagent) {
     };
 
     agent.prototype.signOauth2 = function () {
-        this.set(header, this.oauth.buildAuthHeader(this.token));
+        this.set('Authorization', this.oauth.buildAuthHeader(this.token));
     };
 
     /**
@@ -22,7 +22,7 @@ module.exports = function (superagent) {
      * before that here in the request() function.
      */
 
-    var oldRequest = Request.prototype.request;
+    var oldRequest = agent.prototype.request;
 
     agent.prototype.request = function () {
         this.request = oldRequest
