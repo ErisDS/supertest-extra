@@ -3,7 +3,7 @@
 
 
 
-These are my extensions to [SuperTest](https://github.com/visionmedia/supertest). Originaly forked by  [supertest-scy](https://github.com/scy/supertest-scy)
+These are my extensions to [SuperTest](https://github.com/visionmedia/supertest). Originaly forked by  [supertest-oauth](https://github.com/scy/supertest-oauth)
 
 ## Features
 
@@ -11,7 +11,7 @@ These are my extensions to [SuperTest](https://github.com/visionmedia/supertest)
 
 When a test fails, the stack trace displayed by Mocha (or whatever you use) won't contain information about the request itself. I mean, it's good to see that you got an HTTP 500 instead of the expected 200, but what was the error message? What was the data you sent in that request?
 
-supertest-scy keeps track of the currently running request and, on error, appends all relevant information to the stack trace: request URL, headers, and body as well as response headers and body. You don't need to do anything to enable this, it just works.
+supertest-oauth keeps track of the currently running request and, on error, appends all relevant information to the stack trace: request URL, headers, and body as well as response headers and body. You don't need to do anything to enable this, it just works.
 
 Since that information can be quite a lot of output, the maximum length of attached response body data can be limited:
 
@@ -27,7 +27,7 @@ It would be useful if all of the requests were written to a file for later analy
 
 To easily use HTTP Basic authentication in your calls, you can use the `auth()` method, which also supports setting defaults:
 
-    var supertest = require("supertest-scy");
+    var supertest = require("supertest-oauth");
 
     // Simple authed request.
     supertest(app)
@@ -54,7 +54,7 @@ There is a convenience wrapper that you can use to log information about any req
 
 First of all, these are not perfect, but they work for me. You can access them using `supertest.methodName()`. Here are some examples for all methods that exist:
 
-    var supertest = require("supertest-scy");
+    var supertest = require("supertest-oauth");
 
     supertest.getRandomChar("asdff")
     // Returns either "a", "s", "d" or "f", with "f" being twice as likely to be
@@ -95,8 +95,8 @@ We define `request(foo).sendForm(data)`, which is just a shortcut for `request(f
 
 ### Extension vs. fork
 
-Instead of forking SuperTest and implementing the new features there, this project chose to extend the SuperTest code by messing around with the functions and objects it defines. This is a bit clumsy sometimes, but works surprisingly well. If TJ Holowaychuk is interested, I can integrate some or all of the supertest-scy features in SuperTest. However, this would introduce more dependencies and more code, and since SuperTest is quite minimal, I'm not sure whether he's interested in that.
+Instead of forking SuperTest and implementing the new features there, this project chose to extend the SuperTest code by messing around with the functions and objects it defines. This is a bit clumsy sometimes, but works surprisingly well. If TJ Holowaychuk is interested, I can integrate some or all of the supertest-oauth features in SuperTest. However, this would introduce more dependencies and more code, and since SuperTest is quite minimal, I'm not sure whether he's interested in that.
 
 ### The stability of the request dumps
 
-To do these request dumps, supertest-scy wraps the original `.get()`, `.post()` etc. methods and keeps track of the most recent one using a module-global variable. And if a test returns an error, `attachCurrentRequestToError()` is called to attach a string representation of the request and response to the stack trace.
+To do these request dumps, supertest-oauth wraps the original `.get()`, `.post()` etc. methods and keeps track of the most recent one using a module-global variable. And if a test returns an error, `attachCurrentRequestToError()` is called to attach a string representation of the request and response to the stack trace.
