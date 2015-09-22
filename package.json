@@ -1,0 +1,24 @@
+{
+  "name": "superagent-oauth2",
+  "version": "0.1.1",
+  "description": "Tiny superagent plugin to sign requests with node-oauth",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryankelley/superagent-oauth2"
+  },
+  "keywords": [
+    "superagent",
+    "oauth",
+    "oauth2"
+  ],
+  "author": "Ryan Kelley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryankelley/superagent-oauth2/issues"
+  },
+  "homepage": "https://github.com/ryankelley/superagent-oauth2"
+}
