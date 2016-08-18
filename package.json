@@ -1,7 +1,7 @@
 {
-  "name": "supertest",
-  "version": "2.0.0",
-  "description": "SuperAgent driven library for testing HTTP servers",
+  "name": "supertest-extra",
+  "version": "0.0.1",
+  "description": "SuperTest with better error handling",
   "main": "index.js",
   "scripts": {
     "pretest": "npm install",
@@ -32,10 +32,10 @@
     "test",
     "testing"
   ],
-  "author": "TJ Holowaychuk",
+  "author": "Hannah Wolfe",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/visionmedia/supertest.git"
+    "url": "https://github.com/ErisDS/supertest-extra.git"
   }
 }
