@@ -1,32 +1,41 @@
 {
-  "name": "supertest-oauth",
-  "version": "0.1.6",
-  "description": "Supertest extensions, adding oauth functionality",
+  "name": "supertest-extra",
+  "version": "0.0.1",
+  "description": "Supertest with better error handling",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -R spec"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryankelley/ssupertest-oauth"
+    "url": "https://github.com/ErisDS/ssupertest-extra"
   },
   "keywords": [
     "superagent",
-    "oauth",
-    "oauth2"
+    "supertest"
   ],
-  "author": "Ryan Kelley",
+  "author": "Hannah Wolfe",
+  "contributors": [
+    {
+      "name": "Ryan Kelley",
+      "url": "https://github.com/ryankelley"
+    },
+    {
+      "name": "Tim Weber",
+      "url": "https://github.com/scy/supertest-scy"
+    }
+  ],
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/ryankelley/supertest-oauth/issues"
+    "url": "https://github.com/ErisDS/supertest-extra/issues"
   },
-  "homepage": "https://github.com/ryankelley/supertest-oauth",
+  "homepage": "https://github.com/ErisDS/supertest-extra",
   "dependencies": {
-    "methods": "^1.1.1",
-    "supertest": "^1.1.0"
+    "methods": "1.1.1",
+    "supertest": "1.1.0"
   },
   "devDependencies": {
-    "mocha": "^2.3.3",
-    "restify": "^4.0.3"
+    "mocha": "2.3.3",
+    "restify": "4.0.3"
   }
 }
