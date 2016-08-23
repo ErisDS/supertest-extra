@@ -1,6 +1,6 @@
 {
   "name": "supertest-extra",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "SuperTest with better error handling",
   "main": "index.js",
   "scripts": {
